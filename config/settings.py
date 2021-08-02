@@ -141,3 +141,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 django_heroku.settings(locals())
+del DATABASES['default']['OPTIONS']['sslmode']
