@@ -6,3 +6,16 @@ h1 {
     color: blue;
     font-size: 30px;
 }
+
+h2 {
+    text-transform: capitalize;
+}
+
+.comment {
+    color:white;
+}
+
+.comment:hover {
+    color:white;
+    text-decoration: none;
+}
