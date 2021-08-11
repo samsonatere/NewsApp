@@ -22,9 +22,10 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                <a  href="{% url 'article_new' %}">POST AN ARTICLE</a>
+                <button class="btn btn-light"><a class="head" href="{% url 'article_new' %}">POST AN ARTICLE</a></button>
                 </li>
             </ul>
+            <br>
             {% if user.is_authenticated %}
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
