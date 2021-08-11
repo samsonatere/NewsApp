@@ -4,6 +4,7 @@
 <div class="article-entry">
     <h2>{{ object.title }}</h2>
     <p>by {{ object.author }} | {{ object.date }}</p>
+        <img class="thumbnail" src="{{article.imageURL}}">
     <p>{{ object.body }}</p>
 </div>
 <p><a href="{% url 'article_edit' article.pk %}">Edit</a> | 

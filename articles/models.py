@@ -8,12 +8,21 @@ class Article(models.Model):
     body = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey( get_user_model(), on_delete=models.CASCADE, )
+    image = models.ImageField(null=True, blank=True)
     
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         return reverse('article_detail', args=[str(self.id)])
+
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
 
     class Meta:
         ordering = ('-date',)

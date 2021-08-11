@@ -6,10 +6,11 @@
     {% for article in object_list %}
         <div class="card">
             <div class="card-header">
-                <span class="font-weight-bold"><h2><a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a></h2></span>
+                <span class="font-weight-bold"><h2><a class="head" href="{% url 'article_detail' article.pk %}">{{ article.title }}</a></h2></span>
                 <span class="text-muted">by {{ article.author }} | {{ article.date }}</span>
             </div>
             <div class="card-body ">
+                <img class="thumbnail" src="{{article.imageURL}}">
                 <p>{{ article.body }}</p>
                 {% if user.is_authenticated %}
                 <a href="{% url 'article_edit' article.pk %}">Edit</a> | 
