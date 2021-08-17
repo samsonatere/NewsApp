@@ -1,16 +1,155 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 <div class="article-entry">
     <h2>{{ object.title }}</h2>
     <p>by {{ object.author }} | {{ object.date }}</p>
-        <img class="thumbnail" src="{{article.imageURL}}">
+    <img class="img-fluid" src="{{article.imageURL}}" alt="{{ article.title }} image">
+        <br>
+        <br>
     <p>{{ object.body }}</p>
 </div>
 {% if user.is_authenticated %}
-<p><a href="{% url 'article_edit' article.pk %}">Edit</a> | 
-    <a href="{% url 'article_delete' article.pk %}">Delete</a>
+<p><a href="{% url 'article_edit' article.pk %}" class="btn btn-success btn-sm">Edit</a>
+    <a type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal"> Delete</a>
 </p>
 {% endif %}
 <p>Back to <a href="{% url 'article_list' %}">All Articles</a>.</p>
+ <!-- Delete Modal -->
+ <div class="modal" id="DeleteModal" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h1 class="modal-title">Delete Article</h1>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <p>Are you sure you want to delete "{{ article.title }}"?</h>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+                <form action="{% url 'article_delete' article.pk %}" method="post">
+                    {% csrf_token %}
+                    <div class="content-footer">
+                        <button class="btn btn-danger deletebtn ">DELETE</button>
+                    </div>
+                </form>
+
+                <button type="button" class="btn btn-primary" data-dismiss="modal">CLOSE</button>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div id="comments_section">
+    <div class="row">
+
+        <div class="col-sm-6">
+            {% if user.is_authenticated %}
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <!-- Modal Button -->
+                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#CommentModal"> Comment</button>
+
+                            <!-- Comment Modal -->
+                        <div class="modal" id="CommentModal" >
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <!-- <h1 class="modal-title">Add An Article</h1> -->
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <form action="{% url 'comment_new' article.pk %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                {{ comment_form|crispy }}
+                                                <button class="home__button" type="submit">Add comment 
+                                                    <i class="fas fa-comments"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>   
+                    </div> 
+
+                    <div class="col-sm-6">
+                
+
+        
+                    </div>
+
+                </div>
+
+            {% else %}
+                <a class="home__button" href="{% url 'login' %}">Log in to like or add a comment!</a><br>
+            {% endif %}
+        </div>
+
+    </div>
+
+    {% if comments %}
+        <br>
+        <!-- Likes, Dislikes, Number Of Comment -->
+       
+        <div class="row">
+            <div class="col-sm-3">
+                <strong class="text-secondary">
+                    {{ object.number_of_comments }} Comment{{ object.number_of_comments|pluralize }}
+                </strong>
+            </div>
+
+        </div>
+
+        <hr>
+        <ul>
+            {% for comment in comments %}
+                <li>           
+                    <div>
+                    <span>
+                        <strong class="text-info">{{ comment.author }} </strong>
+                        <small class="text-muted">{{ comment.date }}</small>
+                    </span>
+                    <p>
+                        {{ comment.body|safe }}
+                    </p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+    <br>
+        <div>
+            <strong class="text-secondary">No comments yet...</strong>
+        </div>
+
+    {% endif %}
+    
+</div>
+<br><br>
 {% endblock content %}

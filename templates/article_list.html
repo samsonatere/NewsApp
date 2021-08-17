@@ -9,24 +9,32 @@
                 <span class="font-weight-bold"><h2><a class="head" href="{% url 'article_detail' article.pk %}">{{ article.title }}</a></h2></span>
                 <span class="text-muted">by {{ article.author }} | {{ article.date }}</span>
             </div>
-            <div class="card-body ">
-                <img class="thumbnail" src="{{article.imageURL}}">
+            <div class="card-body">
+                <img class="img-fluid" src="{{article.imageURL}}" alt="{{ article.title }} image">
+                <br>
+                <br>
                 <p>{{ article.body }}</p>
-                {% if user.is_authenticated %}
-                <a href="{% url 'article_edit' article.pk %}">Edit</a> | 
-                <a href="{% url 'article_delete' article.pk %}">Delete</a>
-                {% endif %}
             </div>
-            <div class="card-footer text-center text-muted">
+            <div class="card-footer text-muted">
+                <p>
+                <button class="btn btn-primary"><a class="comment" href="{% url 'article_detail' article.pk %}"> View More And Add Comment</a></button>
+                </p>
+                <strong class="text-secondary">
+                    comments
+                </strong>
+            <ul>
                 {% for comment in article.comments.all %}
-                <p> comments 
-                    <span class="font-weight-bold">
-                        {{ comment.author }} &middot;
+                 <li>
+                    <span >
+                        <strong class="text-info">{{ comment.author }} </strong>
+                        <small class="text-muted">{{ comment.date }}</small>
                     </span>
+                </li>
+                <p>
                     {{ comment }}
                 </p>
                 {% endfor %}
-                <button class="btn btn-primary"><a class="comment" href="{% url 'comment_new' article.pk %}"> Add comment</a></button>
+            </ul>
             </div>
         </div>
         <br />
