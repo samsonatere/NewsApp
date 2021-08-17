@@ -2,14 +2,18 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
+from ckeditor.fields import RichTextField
+from cloudinary.models import CloudinaryField
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
-    body = models.TextField()
+    body = RichTextField(blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey( get_user_model(), on_delete=models.CASCADE, )
-    image = models.ImageField(null=True, blank=True)
-    
+    image = CloudinaryField(null=True, blank=True)
+    # likes = models.ManyToManyField(User, related_name="likes", blank=True)
+    # dislikes = models.ManyToManyField(User, related_name="dislikes", blank=True)
+      
     def __str__(self):
         return self.title
 
@@ -23,6 +27,26 @@ class Article(models.Model):
         except:
             url = ''
         return url
+    
+    @property
+    def number_of_comments(self):
+        return Comment.objects.filter(article=self).count()
+
+    @property
+    def number_of_likes(self):
+        return self.likes.count()
+
+    @property
+    def number_of_dislikes(self):
+        return self.dislikes.count()
+
+    @property
+    def all_liked(self):
+        return self.likes.all()
+
+    @property
+    def all_disliked(self):
+        return self.dislikes.all()
 
     class Meta:
         ordering = ('-date',)
@@ -31,6 +55,10 @@ class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments',)
     comment = models.TextField(max_length=140)
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,)
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-date',)
 
     def __str__(self):
         return self.comment

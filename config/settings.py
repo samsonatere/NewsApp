@@ -15,6 +15,10 @@ from environs import Env
 env = Env()
 env.read_env()
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -46,6 +50,7 @@ INSTALLED_APPS = [
 
     # 3rd Party
     'crispy_forms',
+    'cloudinary',
 
     #Local
     'accounts',
@@ -144,6 +149,11 @@ LOGOUT_REDIRECT_URL = 'home'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 django_heroku.settings(locals())
 del DATABASES['default']['OPTIONS']['sslmode']
+
+cloudinary.config( 
+  cloud_name = "dfxj6x6ch", 
+  api_key = "596468882181954", 
+  api_secret = env.str("CLOUD_SECRET_KEY"),
+)
