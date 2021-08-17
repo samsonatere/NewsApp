@@ -13,7 +13,7 @@
                 <img class="img-fluid" src="{{article.imageURL}}" alt="{{ article.title }} image">
                 <br>
                 <br>
-                <p>{{ article.body }}</p>
+                <p>{{ article.body|safe }}</p>
             </div>
             <div class="card-footer text-muted">
                 <p>
