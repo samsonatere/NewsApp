@@ -113,7 +113,7 @@
 
     </div>
 
-    {% if comments %}
+    {% if article.comments.all %}
         <br>
         <!-- Likes, Dislikes, Number Of Comment -->
        
@@ -128,7 +128,7 @@
 
         <hr>
         <ul>
-            {% for comment in comments %}
+            {% for comment in article.comments.all %}
                 <li>           
                     <div>
                     <span>
@@ -136,7 +136,7 @@
                         <small class="text-muted">{{ comment.date }}</small>
                     </span>
                     <p>
-                        {{ comment.body|safe }}
+                        {{ comment.comment|safe }}
                     </p>
                     </div>
                 </li>

@@ -15,26 +15,47 @@
                 <br>
                 <p>{{ article.body|safe }}</p>
             </div>
-            <div class="card-footer text-muted">
+            
                 <p>
-                <button class="btn btn-primary"><a class="comment" href="{% url 'article_detail' article.pk %}"> View More And Add Comment</a></button>
+                <button class="btn btn-primary btn-sm"><a class="comment" href="{% url 'article_detail' article.pk %}"> View And Add Comment</a></button>
                 </p>
+                <div class="card-footer text-muted">
+        {% if article.comments.all %}
+
+        <!-- Likes, Dislikes, Number Of Comment -->
+       
+        <div class="row">
+            <div class="col-sm-3">
                 <strong class="text-secondary">
-                    comments
+                    {{ object.number_of_comments }} Comment{{ object.number_of_comments|pluralize }}
                 </strong>
-            <ul>
-                {% for comment in article.comments.all %}
-                 <li>
-                    <span >
+            </div>
+
+        </div>
+
+        <hr>
+        <ul>
+            {% for comment in article.comments.all %}
+                <li>           
+                    <div>
+                    <span>
                         <strong class="text-info">{{ comment.author }} </strong>
                         <small class="text-muted">{{ comment.date }}</small>
                     </span>
+                    <p>
+                        {{ comment.comment|safe }}
+                    </p>
+                    </div>
                 </li>
-                <p>
-                    {{ comment }}
-                </p>
-                {% endfor %}
-            </ul>
+            {% endfor %}
+        </ul>
+    {% else %}
+    <br>
+        <div>
+            <strong class="text-secondary">No comments yet...</strong>
+        </div>
+
+    {% endif %}
             </div>
         </div>
         <br />
