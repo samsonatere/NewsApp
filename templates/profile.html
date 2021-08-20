@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock title %}
+
+{% load crispy_forms_tags %}
+{% load cloudinary %}
+{% block content %}
+
+<br />
+<div class="jumbotron row">
+    <div class="col-md-12">
+        <h1 class="display-4 head ">Welcome {{ user.username }}!</h1>
+        <h3 class="text-center">Profile</h3>
+    </div>
+    <hr>
+    <div class="col-md-3">
+        <div class="thumbnail">
+        <img src="{{profile.avatar.url}}" alt="{{ user.username }} picture">
+        </div>
+        <!-- <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input class="btn btn-primary btn-sm" type="submit" value="Upload Picture">
+        </form> -->
+    </div>
+    <br>
+    <div class="col-md-8">
+        <p class=""><strong>Age : </strong> {{ user.age }} years old.</p>
+        <hr>
+        <p class=""><strong>Role : </strong> {{ user.role }} role.</p>
+        <hr>
+        <p class=""><strong>Email : </strong> {{ user.email }}.</p>
+        <hr>
+            <a class="btn btn-primary" href="{% url 'article_list' %}" role="button">View All Articles</a>
+            <a class="head btn btn-warning" href="{% url 'article_new' %}" role="button">POST AN ARTICLE</a>
+    </div>
+    
+</div>
+{% endblock content %}
