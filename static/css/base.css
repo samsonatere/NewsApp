@@ -35,10 +35,9 @@ h1 {
     box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
 }
 
-.thumbnail{
-	width: 200px;
-	height: 200px;
-	-webkit-box-shadow: -1px -3px 5px -2px rgb(65, 56, 56);
-    -moz-box-shadow: -1px -3px 5px -2px rgb(65, 56, 56);
-    box-shadow: -1px -3px 5px -2px rgb(65, 56, 56);
+.profile-pic{
+    max-width: 200px;
+    max-height:200px;
+    margin: 0 auto;
+    border-radius: 50%;
 }
