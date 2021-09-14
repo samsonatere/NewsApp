@@ -13,7 +13,8 @@ of foreign keys. `https://aterenews.herokuapp.com/`
 4. Forgot Password
 5. Change Password
 6. View accounts
-7. Update account properties
+7. Add profile picture
+8. Update account properties
 
 ## System
 1. Post news
