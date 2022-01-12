@@ -24,6 +24,12 @@ class ArticleDetailView(LoginRequiredMixin, DetailView):
 
         return data
 
+
+    def post(self, request, *args, **kwargs):
+        new_comment = Comment(body=request.POST.get('body'), author=self.request.user, article=self.get_object())
+        new_comment.save()
+        return self.get(self, request, *args, **kwargs)
+
 class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Article
     fields = ('title', 'body', 'image')
