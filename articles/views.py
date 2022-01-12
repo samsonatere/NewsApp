@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
+from accounts.forms import NewCommentForm
 from .models import Article, Comment
 
 class ArticleListView(ListView):
@@ -11,6 +12,23 @@ class ArticleListView(ListView):
 class ArticleDetailView(LoginRequiredMixin, DetailView):
     model = Article
     template_name = 'article_detail.html'
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+
+        article_comments = Comment.objects.filter(article=self.get_object()).order_by('-date')
+        if article_comments:
+            data['comments'] = article_comments
+        if self.request.user.is_authenticated:
+            data['comment_form'] = NewCommentForm(instance=self.request.user)
+
+        return data
+
+
+    def post(self, request, *args, **kwargs):
+        new_comment = Comment(comment=request.POST.get('comment'), author=self.request.user, article=self.get_object())
+        new_comment.save()
+        return self.get(self, request, *args, **kwargs)
 
 class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Article
@@ -39,11 +57,3 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-class CommentView(LoginRequiredMixin, CreateView):
-    model = Comment
-    template_name = 'comment.html'
-    fields = ('article', 'comment')
-
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)

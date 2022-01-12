@@ -77,7 +77,7 @@
 
                                     <!-- Modal body -->
                                     <div class="modal-body">
-                                        <form action="{% url 'comment_new' article.pk %}" method="post">
+                                        <form action="" method="post">
                                             {% csrf_token %}
                                             <div class="form-group">
                                                 {{ comment_form|crispy }}
@@ -86,7 +86,6 @@
                                                 </button>
                                             </div>
                                         </form>
-
                                     </div>
 
                                     <!-- Modal footer -->
