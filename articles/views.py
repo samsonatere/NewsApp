@@ -26,7 +26,7 @@ class ArticleDetailView(LoginRequiredMixin, DetailView):
 
 
     def post(self, request, *args, **kwargs):
-        new_comment = Comment(body=request.POST.get('body'), author=self.request.user, article=self.get_object())
+        new_comment = Comment(comment=request.POST.get('comment'), author=self.request.user, article=self.get_object())
         new_comment.save()
         return self.get(self, request, *args, **kwargs)
 
